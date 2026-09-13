@@ -57,8 +57,8 @@ function App() {
         </div>
       </section>
 
-      <div className="space-y-10">
-        <section className="w-[90%] sm:w-[60%] justify-self-center flex flex-col space-y-4" id="about">
+      <div className="space-y-10 flex flex-col items-center">
+        <section className="w-[90%] sm:w-[60%] flex flex-col space-y-4" id="about">
           <h2 className="title text-4xl underline decoration-pink-400 decoration-wavy text-center mb-10 decoration-10 underline-offset-[4px] select-none">Sobre o projeto</h2>
           <p className="roboto">
             Formar um novo hábito não depende apenas de força de vontade. Você também precisa lembrar, todos os dias, de repetir a mesma ação até que ela se torne automática. 
@@ -80,7 +80,7 @@ function App() {
           </p>
         </section>
 
-        <section className="w-[90%] sm:w-[75%] md:w-[60%] justify-self-center flex flex-col space-y-4" id="team">
+        <section className="w-[90%] sm:w-[75%] md:w-[60%] flex flex-col space-y-4" id="team">
           <h2 className="title text-4xl mb-4 underline decoration-yellow-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">A equipe</h2>
           {/* DESKTOP */}
           <div className="w-full justify-between 2xl:flex hidden space-x-4">
@@ -120,7 +120,7 @@ function App() {
           </div>
         </section>
 
-        <section className="w-[90%] sm:w-[60%] justify-self-center flex flex-col space-y-4" id="blog">
+        <section className="w-[90%] sm:w-[60%] flex flex-col space-y-4" id="blog">
           <h2 className="title text-4xl mb-4 underline decoration-pink-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">Blogs</h2>
           
           <div className="relative w-full space-y-4 flex flex-col justify-center items-center">
