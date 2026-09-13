@@ -124,7 +124,7 @@ function App() {
           <h2 className="title text-4xl mb-4 underline decoration-pink-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">Blogs</h2>
           
           <div className="relative w-full space-y-4 flex flex-col justify-center items-center">
-            <p className="text-2xl tracking-wider px-2 py-1 text-gray-400 select-none">[XX/XX/2026] - Nosso primer artigo! (Proximamente)</p>
+            <p className="text-xl md:text-2xl tracking-wider px-2 py-1 text-gray-400 select-none">[XX/XX/2026] - Nosso primer artigo! (Proximamente)</p>
           </div>
         </section>
       </div>
