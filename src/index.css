@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: coral; /* set name */
+  src: url('./assets/fonts/CoralPixels-Regular.ttf'); /* url of the font */
+}
+
+* {
+    box-sizing: border-box;
+    cursor: url('./assets/cursor.png') 0 0, auto;
+}
+
+html,body {
+    scroll-behavior: smooth;
+    text-decoration-skip-ink: none;
+}
+
+
+a,
+button,
+#header_tamagotchi {
+    cursor: url('./assets/cursor_hand.png'), pointer;
+}
+
+img {
+  /* Prevents dragging the image itself */
+  -webkit-user-drag: none;
+  user-drag: none;
+
+  /* Prevents text/image selection highlights */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+/Edge */
+  user-select: none;         /* Standard */
+}
+
+.glass {
+  /* 1. Semi-transparent background color */
+  background: rgba(255, 255, 255, 0.2); 
+  
+  /* 2. The blur effect (Crucial for the glass look) */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px); /* Safari support */
+  
+  /* 3. Subtle translucent border to mimic reflection */
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  
+}
+
+#header {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.title {
+    font-family: roboto;
+    font-weight: 800;
+}
+
+.roboto {
+    font-family: roboto;
+}
+
+.pattern-bg {
+    z-index: -5;
+    height: 40%;
+    width: 60%;
+    position: absolute;
+    background-color: white;
+    background-image: 
+        repeating-linear-gradient(
+        0deg,
+        transparent 0,
+        transparent 19px,
+        #ccc 19px,
+        #ccc 20px
+        ),
+        repeating-linear-gradient(
+        90deg,
+        transparent 0,
+        transparent 19px,
+        #ccc 19px,
+        #ccc 20px
+        );
+    background-size: 20px 20px;
+    
+    -webkit-mask-image: radial-gradient(
+        ellipse 60% 60% at center,
+        black 0%,
+        black 10%,
+        transparent 100%
+    );
+    mask-image: radial-gradient(
+        ellipse 60% 60% at center,
+        black 0%,
+        black 10%,
+        transparent 100%
+    );
+
+    transform: rotate(-3deg);
+}
+
+@keyframes pulse_abc {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.pulse_animation {
+  animation: pulse_abc 2s ease-in-out infinite;
+}
