@@ -46,7 +46,7 @@ function App() {
           </div>
           <h1 className="text-7xl md:text-8xl select-none title">Habitchi</h1>
           <div className="flex flex-col space-y-2">
-            <p><span className="bg-pink-400 px-2 py-1 select-none">Criando hâbitos</span></p>
+            <p><span className="bg-pink-400 px-2 py-1 select-none">Criando hábitos</span></p>
             <div className="pulse_animation md:hidden">
               <a href={Proposta} target="_blank"><span className="bg-yellow-400 px-2 py-1 select-none ">Baixe a nossa proposta</span></a>
             </div>
