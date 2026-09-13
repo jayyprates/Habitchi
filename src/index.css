@@ -18,7 +18,7 @@ html,body {
 
 a,
 button,
-#header_tamagotchi {
+.cursor-pointer {
     cursor: url('./assets/cursor_hand.png'), pointer;
 }
 

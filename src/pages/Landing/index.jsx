@@ -15,7 +15,8 @@ function App() {
     {
       "name": "Joana Prates",
       "career": "Eng. Computaçao",
-      "ra": "202616727"
+      "ra": "202616727",
+      "external_url": "https://jayyprates.github.io/PortfolioCoder/index.html"
     },
     {
       "name": "Pedro Ciscotto",
@@ -90,6 +91,7 @@ function App() {
                 career={member.career}
                 ra={member.ra}
                 key={`desktop_member_card_{member.ra}`}
+                externalUrl={member.external_url}
               />
             ))}
           </div>
