@@ -83,7 +83,7 @@ function App() {
         <section className="w-[90%] sm:w-[75%] md:w-[60%] flex flex-col space-y-4" id="team">
           <h2 className="title text-4xl mb-4 underline decoration-yellow-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">A equipe</h2>
           {/* DESKTOP */}
-          <div className="w-full justify-between 2xl:flex hidden space-x-4">
+          <div className="w-full justify-between xl:flex hidden space-x-4">
             {MEMBERS.map((member) => (
               <MemberCard 
                 name={member.name}
@@ -94,7 +94,7 @@ function App() {
             ))}
           </div>
           {/* MOBILE */}
-          <div className="2xl:hidden">
+          <div className="xl:hidden">
             <table className="table-auto w-full border-separate border-spacing-y-4">
               <thead>
                 <tr className="text-left">
