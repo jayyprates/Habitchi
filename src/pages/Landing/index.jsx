@@ -38,7 +38,7 @@ function App() {
     <div className="pb-20">
       <Navbar />
   
-      <section  className="w-[80%] justify-self-center" id="header">
+      <section  className="w-full" id="header">
         <div className="pattern-bg"></div>
         <div className="flex justify-center items-start flex-col relative">
           <div className="w-full justify-center flex">
