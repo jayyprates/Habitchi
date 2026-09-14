@@ -21,12 +21,12 @@ function App() {
     {
       "name": "Pedro Ciscotto",
       "career": "Eng. Computação",
-      "ra": "202611111"
+      "ra": "202618889"
     },
     {
       "name": "Victor Hugo",
       "career": "Eng. Computação",
-      "ra": "202622222"
+      "ra": "202600256"
     },
     {
       "name": "Davi Assis De Lima",
