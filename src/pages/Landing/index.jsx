@@ -9,28 +9,28 @@ function App() {
   const MEMBERS = [
     {
       "name": "Fabrizio Liotta",
-      "career": "Eng. Eletrica",
+      "career": "Eng. Elétrica",
       "ra": "202651446"
     },
     {
       "name": "Joana Prates",
-      "career": "Eng. Computaçao",
+      "career": "Eng. Computação",
       "ra": "202616727",
       "external_url": "https://jayyprates.github.io/PortfolioCoder/index.html"
     },
     {
       "name": "Pedro Ciscotto",
-      "career": "Eng. Computaçao",
+      "career": "Eng. Computação",
       "ra": "202611111"
     },
     {
       "name": "Victor Hugo",
-      "career": "Eng. Computaçao",
+      "career": "Eng. Computação",
       "ra": "202622222"
     },
     {
       "name": "David Assis",
-      "career": "Eng. Computaçao",
+      "career": "Eng. Computação",
       "ra": "202633333"
     }
   ]
