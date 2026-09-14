@@ -29,9 +29,9 @@ function App() {
       "ra": "202622222"
     },
     {
-      "name": "David Assis",
+      "name": "Davi Assis De Lima",
       "career": "Eng. Computação",
-      "ra": "202633333"
+      "ra": "202631211"
     }
   ]
 
