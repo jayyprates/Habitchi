@@ -82,7 +82,7 @@ function App() {
         </section>
 
         <section className="w-[90%] sm:w-[60%] flex flex-col space-y-4" id="team">
-          <h2 className="title text-4xl mb-4 underline decoration-yellow-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">A equipe</h2>
+          <h2 className="title text-4xl mb-4 underline decoration-yellow-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">A equipe (Grupo 1)</h2>
           {/* DESKTOP */}
           <div className="w-full justify-between xl:flex hidden space-x-4">
             {MEMBERS.map((member) => (
