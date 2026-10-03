@@ -1,4 +1,4 @@
-# Habitchi Arduino
+# Habitchi Board
 
 **Componentes:**
 
