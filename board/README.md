@@ -1,5 +1,8 @@
 # Habitchi Board
 
+<img width="1600" height="1200" alt="image" src="https://github.com/user-attachments/assets/babd423f-821a-489c-8b43-ec2c7cc1c71c" />
+
+
 **Componentes:**
 
 * Arduino Nano V3 (ATmega328P)
@@ -9,7 +12,7 @@ O projeto é desenvolvido em C++, utilizando o **PlatformIO** como gerenciador d
 
 **PINS**
 ```
-// BUTTONS
+// BUTTONS (Resistores 10kΩ)
 constexpr uint8_t OK_BUTTON_PIN = 2;
 constexpr uint8_t UP_BUTTON_PIN = 3;
 constexpr uint8_t DOWN_BUTTON_PIN = 4;
