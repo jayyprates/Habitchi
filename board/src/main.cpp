@@ -1,30 +1,78 @@
+// @ Packages
 #include <Arduino.h>
-#include <GxEPD2_BW.h>
-#include <Fonts/FreeMonoBold9pt7b.h>
 
-// CS, DC, RST, BUSY
-GxEPD2_BW<GxEPD2_266_BN, GxEPD2_266_BN::HEIGHT / 8> display(
-    GxEPD2_266_BN(/*CS=*/6, /*DC=*/7, /*RST=*/8, /*BUSY=*/9));
+// @ Project
+// * Modules
+#include "display.h"
+#include "button.h"
+
+// * Screens
+#include "screens/base/screen.h"
+#include "screens/splash_screen.h"
+#include "screens/main_screen.h"
+#include "screens/screen_enum.h"
+
+
+constexpr uint32_t SPLASH_DURATION_MS = 5000;
+
+constexpr uint8_t OK_BUTTON_PIN = 2;
+constexpr uint8_t UP_BUTTON_PIN = 3;
+constexpr uint8_t DOWN_BUTTON_PIN = 4;
+
+constexpr uint32_t SERIAL_BAUD = 115200;
+
+SplashScreen splash;
+MainScreen mainScreen;
+
+Screen* current = &splash;
+bool splashDone = false;
+uint32_t splashStart = 0;
+ScreenId lastScreen = ScreenId::Splash;
+
+Button okButton(OK_BUTTON_PIN);
+Button upButton(UP_BUTTON_PIN);
+Button downButton(DOWN_BUTTON_PIN);
 
 void setup() {
-  display.init(115200, true, 2, false);
-  display.setRotation(1);                 // landscape: 296 x 152
-  display.setFont(&FreeMonoBold9pt7b);
-  display.setTextColor(GxEPD_BLACK);
+    Serial.begin(SERIAL_BAUD);
+    Serial.println(F("boot"));
 
-  display.setFullWindow();
-  display.firstPage();
-  do {
-    display.fillScreen(GxEPD_WHITE);
-    display.drawRect(2, 2, display.width() - 4, display.height() - 4, GxEPD_BLACK);
-    display.setCursor(20, 60);
-    display.print("Hello, e-paper!");
-    display.setCursor(20, 90);
-    display.print("Arduino Nano OK");
-  } while (display.nextPage());
+    display.init(SERIAL_BAUD, true, 2, false);
+    display.setRotation(1);
 
-  display.hibernate();
+    okButton.begin();
+    upButton.begin();
+    downButton.begin();
+
+    current->handleDraw();
+    splashStart = millis();
 }
 
 void loop() {
+    // Loading screen
+    if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
+        current = &mainScreen;
+        splashDone = true;
+    }
+
+    // Screen change
+    if (lastScreen != current->id) {
+        lastScreen = current->id;
+        current->handleDraw();
+    }
+
+    if (okButton.presseed()) {
+      Serial.println(F("[* DEBUG] - OK BUTTON PRESSED"));
+      current->onOkBtnPressed();
+    }
+
+    if (upButton.presseed()) {
+      Serial.println(F("[* DEBUG] - UP BUTTON PRESSED"));
+      current->onUpBtnPressed();
+    }
+
+    if (downButton.presseed()) {
+      Serial.println(F("[* DEBUG] - DOWN BUTTON PRESSED"));
+      current->onDownBtnPressed();
+    }
 }
