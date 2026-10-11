@@ -13,7 +13,7 @@
 #include "screens/screen_enum.h"
 
 
-constexpr uint32_t SPLASH_DURATION_MS = 5000;
+constexpr uint32_t SPLASH_DURATION_MS = 2500;
 
 constexpr uint8_t OK_BUTTON_PIN = 2;
 constexpr uint8_t UP_BUTTON_PIN = 3;
