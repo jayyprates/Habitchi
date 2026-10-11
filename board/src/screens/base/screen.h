@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #include "display.h"
 #include "screens/screen_enum.h"
+#include "alignment_enum.h"
 
 class Screen {
 public:
@@ -15,9 +16,18 @@ public:
     virtual ~Screen() = default;
     
     void handleDraw();
+    void handleDrawText(
+        const String& text, 
+        int16_t x, 
+        int16_t y, 
+        uint8_t textSize = 1,
+        boolean partial = false,
+        boolean inverted = false,
+        TextAlignH hAlignment = TextAlignH::LEFT,
+        TextAlignV vAlignment = TextAlignV::CENTER
+    );
 
     virtual void show() = 0;
-    virtual void interact() = 0;
     virtual void clear();
 
     virtual void onOkBtnPressed() {};

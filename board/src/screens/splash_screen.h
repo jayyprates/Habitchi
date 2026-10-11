@@ -5,5 +5,4 @@ class SplashScreen : public Screen {
 public:
     SplashScreen();
     void show() override;
-    void interact() override;
 };

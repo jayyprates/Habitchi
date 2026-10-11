@@ -4,9 +4,13 @@
 SplashScreen::SplashScreen() : Screen(ScreenId::Splash, "Splash", false) {}
 
 void SplashScreen::show() {
-    display.setCursor(10, 40);
-    display.setTextSize(2);
-    display.print("SPLASHSCREEN\nINICIANDO SISTEMA");
+    handleDrawText(
+        "Loading...", 
+        display.width() / 2, 
+        display.height() / 2, 
+        2, 
+        false, 
+        false, 
+        TextAlignH::CENTER
+    );
 }
-
-void SplashScreen::interact() {}

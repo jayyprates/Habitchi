@@ -1,18 +1,31 @@
 #include "screens/main_screen.h"
 #include "screen_enum.h"
 
-MainScreen::MainScreen() : Screen(ScreenId::Main, "Main", true) {}
+MainScreen::MainScreen() : Screen(ScreenId::Main, "Main", false) {}
 
 void MainScreen::show() {
-    display.setCursor(10, 40);
-    display.setTextSize(2);
-    display.print("TELA DE INICIO");
+    handleDrawText(
+        "No habit created yet.", 
+        display.width() / 2, 
+        display.height() / 2, 
+        2, 
+        false, 
+        false, 
+        TextAlignH::CENTER
+    );
+    handleDrawText(
+        "(^_^)", 
+        display.width() / 2, 
+        display.height() / 2 + 25, 
+        2, 
+        false, 
+        false, 
+        TextAlignH::CENTER
+    );
 }
 
-void MainScreen::interact() {}
-
 void MainScreen::onOkBtnPressed() {
-   // ...
+    // ...
 }
 
 void MainScreen::onDownBtnPressed() {
