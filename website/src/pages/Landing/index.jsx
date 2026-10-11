@@ -1,9 +1,12 @@
+import { Link } from "react-router";
+
 // @ Project
 import Footer from "../../components/Footer";
 import Navbar from "../../components/Navbar";
 import MemberCard from "../../components/MemberCard"
 import Tamagotchi from "../../assets/tamagotchi.png";
 import Proposta from "../../assets/habitchi_proposta.pdf"
+import { posts } from "../../blogs_map";
 
 function App() {
   const MEMBERS = [
@@ -126,7 +129,18 @@ function App() {
           <h2 className="title text-4xl mb-4 underline decoration-pink-400 decoration-wavy mt-10 mb-10 text-center decoration-10 underline-offset-[4px] select-none">Blogs</h2>
           
           <div className="relative w-full space-y-4 flex flex-col justify-center items-center">
-            <p className="text-xl md:text-2xl tracking-wider px-2 py-1 text-gray-400 select-none">[XX/XX/2026] - Nosso primeiro artigo! (Em breve)</p>
+            {Object.keys(posts).map((p) => {
+              const post = posts[p];
+
+              return (
+                <Link 
+                  className="text-xl md:text-2xl tracking-wider px-2 py-1 underline text-blue-600 hover:text-blue-800 visited:text-purple-600 select-none underline"
+                  to={`/blog/${p}`}
+                >
+                  [{post["date"].toLocaleDateString("pt-BR")}] - {post["title"]}
+                </Link>
+              )
+            })}
           </div>
         </section>
       </div>
