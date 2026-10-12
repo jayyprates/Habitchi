@@ -50,6 +50,7 @@ void setup() {
 
 void loop() {
     // Loading screen
+    
     if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
         current = &mainScreen;
         splashDone = true;
