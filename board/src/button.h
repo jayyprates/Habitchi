@@ -5,7 +5,10 @@
 
 class Button {
 public:
-    explicit Button(uint8_t pin, uint16_t debounceMs = 30) : pin(pin), debounceMs(debounceMs) {}
+    explicit Button(
+        uint8_t pin, 
+        uint16_t debounceMs = 30
+    ) : pin(pin), debounceMs(debounceMs) {}
 
     void begin() {
         pinMode(pin, INPUT_PULLUP);

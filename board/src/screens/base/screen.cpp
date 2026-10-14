@@ -2,13 +2,10 @@
 #include <string.h>
 #include "alignment_enum.h"
 
-void Screen::clear() {
-    display.setFullWindow();
-    display.firstPage();
-    do {
-        display.fillScreen(GxEPD_WHITE);
-    } while (display.nextPage());
-}
+/*
+    @TODO
+    There is a lot of room for improvement here
+*/
 
 void Screen::handleDrawText(
     const String& text,
@@ -71,8 +68,13 @@ void Screen::handleDrawText(
     }
 }
 
-void Screen::handleDraw() {
-    display.setFullWindow();
+void Screen::handleDraw(boolean full) {
+   if (full) {
+        display.setFullWindow();
+    } else {
+        display.setPartialWindow(0, 0, display.width(), display.height());
+    }
+
     display.firstPage();
     do {
         display.fillScreen(GxEPD_WHITE);
