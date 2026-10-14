@@ -3,7 +3,7 @@
 
 #include <Arduino.h>
 #include "display.h"
-#include "screens/screen_enum.h"
+#include "screen_enum.h"
 #include "alignment_enum.h"
 
 class Screen {
@@ -15,7 +15,7 @@ public:
     ) : id(id), title(title), showTitle(showTitle) {}
     virtual ~Screen() = default;
     
-    void handleDraw();
+    void handleDraw(boolean full = false);
     void handleDrawText(
         const String& text, 
         int16_t x, 
@@ -28,7 +28,6 @@ public:
     );
 
     virtual void show() = 0;
-    virtual void clear();
 
     virtual void onOkBtnPressed() {};
     virtual void onUpBtnPressed() {};

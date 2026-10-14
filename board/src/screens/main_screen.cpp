@@ -1,5 +1,6 @@
 #include "screens/main_screen.h"
-#include "screen_enum.h"
+#include "screens/base/screen_enum.h"
+#include "screen_manager.h"
 
 MainScreen::MainScreen() : Screen(ScreenId::Main, "Main", false) {}
 
@@ -14,10 +15,10 @@ void MainScreen::show() {
         TextAlignH::CENTER
     );
     handleDrawText(
-        "(^_^)", 
+        "Press 'OK' to start", 
         display.width() / 2, 
         display.height() / 2 + 25, 
-        2, 
+        1, 
         false, 
         false, 
         TextAlignH::CENTER
@@ -25,7 +26,7 @@ void MainScreen::show() {
 }
 
 void MainScreen::onOkBtnPressed() {
-    // ...
+    changeScreen(ScreenId::Menu);
 }
 
 void MainScreen::onDownBtnPressed() {

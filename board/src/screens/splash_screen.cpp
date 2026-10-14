@@ -1,5 +1,5 @@
 #include "screens/splash_screen.h"
-#include "screen_enum.h"
+#include "screens/base/screen_enum.h"
 #include "screens/base/logo_habitchi.h"
 
 SplashScreen::SplashScreen() : Screen(ScreenId::Splash, "Splash", false) {}
