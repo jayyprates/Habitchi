@@ -4,6 +4,7 @@ const Navbar = () => (
       <li><a className="hover:bg-pink-400 px-2 py-1" href="/#about">O Projeto</a></li>
       <li><a className="hover:bg-yellow-400 px-2 py-1" href="/#team">Equipe</a></li>
       <li><a className="hover:bg-pink-400 px-2 py-1" href="/#blog">Blogs</a></li>
+      <li><a className="hover:bg-pink-400 px-2 py-1" href="https://github.com/jayyprates/Habitchi">GitHub</a></li>
     </ul>
   </nav>
 )
