@@ -5,7 +5,7 @@ MainScreen::MainScreen() : Screen(ScreenId::Main, "Main", false) {}
 
 void MainScreen::show() {
     handleDrawText(
-        "No habit created yet.", 
+        "asdfasdfasdf.", 
         display.width() / 2, 
         display.height() / 2, 
         2, 
