@@ -54,6 +54,9 @@ void setup() {
     upButton.begin();
     downButton.begin();
 
+    // A0 desconectado gera ruido, serve de semente pro sorteio do bichinho
+    randomSeed(analogRead(A0));
+
     current->handleDraw();
     splashStart = millis();
 }
