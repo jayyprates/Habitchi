@@ -64,7 +64,7 @@ void MenuScreen::onOkBtnPressed() {
             // TODO: Page not implemented
             break;
         case MenuButtonId::SUSPENSE:
-            // TODO
+            changeScreen(ScreenId::Confirmation);
             break;
         case MenuButtonId::TURN_OFF:
             // TODO: Currently, only clearScreen() is called, but it should also call something like handleTurnOff() in main.cpp to turn the device off completely.
