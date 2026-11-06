@@ -9,7 +9,9 @@ enum class ScreenId : uint8_t {
   Menu,
   Settings,
   Create,
-  Edit
+  Edit,
+  Confirmation,
+  DeadPet
 };
 
-#endif
+#endif
