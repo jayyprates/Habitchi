@@ -14,6 +14,8 @@
 #include "screens/main_screen.h"
 #include "screens/base/screen_enum.h"
 #include "screens/menu_screen.h"
+#include "screens/confirmation_screen.h"
+#include "screens/dead_pet_screen.h"
 
 #define MAX_CHANGES_BEFORE_FULL_REFRESH 10
 #define SPLASH_DURATION_MS 2500
@@ -27,6 +29,8 @@ constexpr uint32_t SERIAL_BAUD = 115200;
 SplashScreen splash;
 MainScreen mainScreen;
 MenuScreen menuScreen;
+ConfirmationScreen confirmationScreen;
+DeadPetScreen deadPetScreen;
 
 Screen* current = &splash;
 bool splashDone = false;
@@ -49,6 +53,9 @@ void setup() {
     okButton.begin();
     upButton.begin();
     downButton.begin();
+
+    // A0 desconectado gera ruido, serve de semente pro sorteio do bichinho
+    randomSeed(analogRead(A0));
 
     current->handleDraw();
     splashStart = millis();
@@ -101,7 +108,13 @@ void changeScreen(ScreenId newScreen) {
     case ScreenId::Menu:
       current = &menuScreen;
       break;
+    case ScreenId::Confirmation:
+      current = &confirmationScreen;
+      break;
+    case ScreenId::DeadPet:
+      current = &deadPetScreen;
+      break;
     default:
       break;
   };
-}
+}
