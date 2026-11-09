@@ -2,7 +2,7 @@
 #include <screens/base/screen_enum.h>
 #include <string.h>
 #include "screen_manager.h"
-
+#include <elements/DisplayButton.h>
 #define PADDING_LEFT 16
 
 MenuScreen::MenuScreen() : Screen(ScreenId::Menu, "Menu", false) {
@@ -57,20 +57,20 @@ void MenuScreen::drawPointer(uint16_t x, uint16_t y, boolean partial) {
 
 void MenuScreen::onOkBtnPressed() {
     switch(buttons[selectedButton].id) {
-        case MenuButtonId::CREATE:
+        case DisplayButtonId::MENU_CREATE:
+            changeScreen(ScreenId::Create);
+            break;
+        case DisplayButtonId::MENU_EDIT:
             // TODO: Page not implemented
             break;
-        case MenuButtonId::EDIT:
-            // TODO: Page not implemented
-            break;
-        case MenuButtonId::SUSPENSE:
+        case DisplayButtonId::MENU_SUSPENSE:
             // TODO
             break;
-        case MenuButtonId::TURN_OFF:
+        case DisplayButtonId::MENU_TURN_OFF:
             // TODO: Currently, only clearScreen() is called, but it should also call something like handleTurnOff() in main.cpp to turn the device off completely.
             display.clearScreen();
             break;
-        case MenuButtonId::BACK:
+        case DisplayButtonId::MENU_BACK:
             changeScreen(ScreenId::Main);
             break;
         default:

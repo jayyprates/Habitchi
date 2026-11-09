@@ -30,7 +30,9 @@ public:
     virtual void show() = 0;
 
     virtual void onOkBtnPressed() {};
+    virtual void onDoubleOkBtnPressed() {};
     virtual void onUpBtnPressed() {};
+    virtual void onDoubleUpBtnPressed() {};
     virtual void onDownBtnPressed() {};
 
     const ScreenId id;

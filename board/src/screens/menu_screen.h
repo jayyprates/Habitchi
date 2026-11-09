@@ -7,18 +7,9 @@
 #define MENU_H_PADDING 30
 
 #include <screens/base/screen.h>
+#include <elements/DisplayButton.h>
 
 constexpr uint8_t NUM_BUTTONS = 5;
-
-enum class MenuButtonId : uint8_t { CREATE, EDIT, SUSPENSE, TURN_OFF, BACK };
-
-struct MenuButton {
-    MenuButtonId id;
-    String title;
-    boolean selected;
-    uint16_t x;
-    uint16_t y;
-};
 
 class MenuScreen : public Screen {
 public:
@@ -33,12 +24,12 @@ public:
 private:
     int selectedButton = 0;
 
-    MenuButton buttons[NUM_BUTTONS] = {
-        {MenuButtonId::CREATE, "Criar habito", false, MENU_H_PADDING, 10},
-        {MenuButtonId::EDIT, "Editar habito", false, MENU_H_PADDING, 40},
-        {MenuButtonId::SUSPENSE, "Suspender", false, MENU_H_PADDING, 70},
-        {MenuButtonId::TURN_OFF, "Apagar", false, MENU_H_PADDING, 100},
-        {MenuButtonId::BACK, "Voltar", false, MENU_H_PADDING, 140},
+    DisplayButton buttons[NUM_BUTTONS] = {
+        {DisplayButtonId::MENU_CREATE, "Criar habito", false, MENU_H_PADDING, 10},
+        {DisplayButtonId::MENU_EDIT, "Editar habito", false, MENU_H_PADDING, 40},
+        {DisplayButtonId::MENU_SUSPENSE, "Suspender", false, MENU_H_PADDING, 70},
+        {DisplayButtonId::MENU_TURN_OFF, "Apagar", false, MENU_H_PADDING, 100},
+        {DisplayButtonId::MENU_BACK, "Voltar", false, MENU_H_PADDING, 140},
     };
 };
 #endif
