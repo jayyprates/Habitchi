@@ -3,7 +3,6 @@
 
 CreateHabitScreen::CreateHabitScreen() : Screen(ScreenId::Create, "Create Habit", false) {}
 
-// Texto confirmado + la letra que se esta eligiendo (la ultima, que cambia con UP/DOWN)
 void CreateHabitScreen::show() {
     String text(characters);
     if (charsCounter < MAX_CHARACTERS) {
@@ -75,7 +74,6 @@ void CreateHabitScreen::drawPointer(uint16_t x, uint16_t y, boolean partial) {
     );
 }
 
-// OK: confirma la letra, la agrega al texto y arranca la siguiente en 'a'
 void CreateHabitScreen::onOkBtnPressed() {
     if (editing) {
         if (charsCounter >= MAX_CHARACTERS) return;
@@ -94,13 +92,13 @@ void CreateHabitScreen::onOkBtnPressed() {
     handleDraw();
         } else if (selectedButton == 1) {
             selectedButton = 0;
-            memset(characters, 0, sizeof(characters));  // limpia el array
+            memset(characters, 0, sizeof(characters));  
             charsCounter = 0;
             currentChar = 'A';
             changeScreen(ScreenId::Menu);
         } else if (selectedButton == 0) {
             selectedButton = 0;
-            memset(characters, 0, sizeof(characters));  // limpia el array
+            memset(characters, 0, sizeof(characters)); 
             charsCounter = 0;
             currentChar = 'A';
             changeScreen(ScreenId::Main);
@@ -109,7 +107,6 @@ void CreateHabitScreen::onOkBtnPressed() {
     
 }
 
-// Doble OK (dos clicks seguidos en OK)
 void CreateHabitScreen::onDoubleOkBtnPressed() {
     editing = false;
 
