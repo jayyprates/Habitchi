@@ -1,5 +1,10 @@
 #include "screens/create_habit_screen.h"
 #include <screen_manager.h>
+#include "habit.h"
+#include "habit_manager.h"
+#include <RTClib.h>
+
+extern RTC_DS3231 rtc;
 
 CreateHabitScreen::CreateHabitScreen() : Screen(ScreenId::Create, "Create Habit", false) {}
 
@@ -74,6 +79,23 @@ void CreateHabitScreen::drawPointer(uint16_t x, uint16_t y, boolean partial) {
     );
 }
 
+void CreateHabitScreen::onCreateHabitAccept() {
+    Habit new_habit;
+    
+    // Garantizar terminación en nulo si 'characters' no está nulo-terminado
+    characters[sizeof(characters) - 1] = '\0';
+
+    // Copiar las letras guardadas en 'characters' hacia la estructura del hábito
+    strncpy(new_habit.name, characters, sizeof(new_habit.name) - 1);
+    new_habit.name[sizeof(new_habit.name) - 1] = '\0';
+    
+    new_habit.counter = 0;
+    new_habit.last_tracked = 0;
+
+    // Guardar en EEPROM
+    saveHabit(0, new_habit);
+}
+
 void CreateHabitScreen::onOkBtnPressed() {
     if (editing) {
         if (charsCounter >= MAX_CHARACTERS) return;
@@ -83,7 +105,7 @@ void CreateHabitScreen::onOkBtnPressed() {
         currentChar = 'A';
 
 
-    handleDraw();
+        handleDraw();
     } else {
         if (selectedButton == 2) {
             editing = true;
@@ -97,6 +119,7 @@ void CreateHabitScreen::onOkBtnPressed() {
             currentChar = 'A';
             changeScreen(ScreenId::Menu);
         } else if (selectedButton == 0) {
+            onCreateHabitAccept();
             selectedButton = 0;
             memset(characters, 0, sizeof(characters)); 
             charsCounter = 0;
