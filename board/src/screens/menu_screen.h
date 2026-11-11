@@ -26,7 +26,7 @@ private:
 
     DisplayButton buttons[NUM_BUTTONS] = {
         {DisplayButtonId::MENU_CREATE, "Criar habito", false, MENU_H_PADDING, 10},
-        {DisplayButtonId::MENU_EDIT, "Editar habito", false, MENU_H_PADDING, 40},
+        {DisplayButtonId::MENU_DELETE, "Apagar habito", false, MENU_H_PADDING, 40},
         {DisplayButtonId::MENU_SUSPENSE, "Suspender", false, MENU_H_PADDING, 70},
         {DisplayButtonId::MENU_TURN_OFF, "Apagar", false, MENU_H_PADDING, 100},
         {DisplayButtonId::MENU_BACK, "Voltar", false, MENU_H_PADDING, 140},

@@ -1,12 +1,16 @@
+
 // @ Packages
 #include <Arduino.h>
+#include <Wire.h>
+#include <RTClib.h>
 
 // @ Project
 // * Modules
 #include "display.h"
 #include "button.h"
 #include "screen_manager.h"
-
+#include "habit.h"
+#include "habit_manager.h"
 
 // * Screens
 #include "screens/base/screen.h"
@@ -19,23 +23,22 @@
 #define MAX_CHANGES_BEFORE_FULL_REFRESH 10
 #define SPLASH_DURATION_MS 2500
 
+#define DEBUG true
+
 constexpr uint8_t OK_BUTTON_PIN = 2;
 constexpr uint8_t UP_BUTTON_PIN = 3;
 constexpr uint8_t DOWN_BUTTON_PIN = 4;
 
 constexpr uint32_t SERIAL_BAUD = 115200;
 
-// Ventana para detectar doble click. Un click simple se entrega recien cuando
-// pasa esta ventana sin un segundo click.
 constexpr uint16_t DOUBLE_PRESS_WINDOW_MS = 300;
 
 enum class Press : uint8_t { None, Single, Double };
 
 struct DoublePressDetector {
-    bool pending = false;   // hubo un click esperando ver si viene un segundo
+    bool pending = false;
     uint32_t since = 0;
 
-    // Llamar una vez por vuelta del loop, con el resultado de button.presseed()
     Press update(bool pressed) {
         if (pressed) {
             if (pending && millis() - since < DOUBLE_PRESS_WINDOW_MS) {
@@ -43,8 +46,6 @@ struct DoublePressDetector {
                 return Press::Double;
             }
 
-            // Si quedaba un click viejo con la ventana vencida, se entrega ahora como
-            // simple y este click pasa a ser el pendiente
             const bool hadExpired = pending;
             pending = true;
             since = millis();
@@ -60,15 +61,15 @@ struct DoublePressDetector {
     }
 };
 
-SplashScreen splash;
+SplashScreen splashScreen;
 MainScreen mainScreen;
 MenuScreen menuScreen;
 CreateHabitScreen createScreen;
 
-Screen* current = &createScreen;
+Screen* current = &splashScreen;
 bool splashDone = false;
 uint32_t splashStart = 0;
-ScreenId lastScreen = ScreenId::Create;
+ScreenId lastScreen = ScreenId::Splash;
 
 Button okButton(OK_BUTTON_PIN);
 Button upButton(UP_BUTTON_PIN);
@@ -79,19 +80,51 @@ uint8_t screenChangesCounter = 0;
 DoublePressDetector okDetector;
 DoublePressDetector upDetector;
 
-// El e-paper tarda ~0.8 s en refrescar y el loop queda bloqueado esperando. GxEPD2 llama a
-// esta funcion una y otra vez durante esa espera, asi los botones se siguen leyendo y el
-// click queda guardado (Button::update) en vez de perderse.
 void pollButtonsWhileBusy(const void*) {
     okButton.update();
     upButton.update();
     downButton.update();
 }
 
+// -------- RTC (DS3231) --------
+RTC_DS3231 rtc;
+bool rtcOk = false;
+constexpr uint16_t RTC_DEBUG_INTERVAL_MS = 5000;
+uint32_t lastRtcDebug = 0;
+
+void rtcInit() {
+    Wire.begin();
+    rtcOk = rtc.begin();
+
+    if (!rtcOk) {
+        Serial.println(F("[* DEBUG] - RTC NO ENCONTRADO (revisar SDA->A4, SCL->A5, VCC, GND)"));
+        return;
+    }
+
+    if (rtc.lostPower()) {
+        Serial.println(F("[* DEBUG] - RTC perdio la energia, ajustando con la hora de compilacion"));
+        rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+    }
+
+    Serial.println(F("[* DEBUG] - RTC OK"));
+}
+
+void rtcDebugPrint() {
+    if (!rtcOk || millis() - lastRtcDebug < RTC_DEBUG_INTERVAL_MS) return;
+    lastRtcDebug = millis();
+
+    DateTime now = rtc.now();
+    Serial.print(F("[* DEBUG] - RTC: "));
+    Serial.print(now.timestamp());
+    Serial.print(F(" | unix: "));
+    Serial.println(now.unixtime());
+}
+
 void setup() {
     Serial.begin(SERIAL_BAUD);
     Serial.println(F("boot"));
 
+    rtcInit();
     display.init(SERIAL_BAUD, true, 2, false);
     display.setRotation(1);
 
@@ -102,59 +135,59 @@ void setup() {
     display.epd2.setBusyCallback(pollButtonsWhileBusy);
 
     current->handleDraw();
-    //splashStart = millis();
 }
 
 void loop() {
-    // Loading screen
-    /*
-    if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
-        current = &mainScreen;
-        splashDone = true;
-    }*/
-    
-    // Screen change
-    if (lastScreen != current->id) {
-        lastScreen = current->id;
-        if (screenChangesCounter == MAX_CHANGES_BEFORE_FULL_REFRESH) {
-          // After 10 screen changes we do a fullscreen clean to avoid ghosting
-          current->handleDraw(true);
-          screenChangesCounter = 0;
-        } else {
-          current->handleDraw();
-        }
-    }
+  if (DEBUG) {
+    rtcDebugPrint();
+  }
 
-    switch (okDetector.update(okButton.presseed())) {
-      case Press::Single:
-        Serial.println(F("[* DEBUG] - OK BUTTON PRESSED"));
-        current->onOkBtnPressed();
-        break;
-      case Press::Double:
-        Serial.println(F("[* DEBUG] - OK BUTTON DOUBLE PRESSED"));
-        current->onDoubleOkBtnPressed();
-        break;
-      default:
-        break;
-    }
+  if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
+    current = &mainScreen;
+    splashDone = true;
+  }
 
-    switch (upDetector.update(upButton.presseed())) {
-      case Press::Single:
-        Serial.println(F("[* DEBUG] - UP BUTTON PRESSED"));
-        current->onUpBtnPressed();
-        break;
-      case Press::Double:
-        Serial.println(F("[* DEBUG] - UP BUTTON DOUBLE PRESSED"));
-        current->onDoubleUpBtnPressed();
-        break;
-      default:
-        break;
-    }
+  // Screen change
+  if (lastScreen != current->id) {
+      lastScreen = current->id;
+      if (screenChangesCounter == MAX_CHANGES_BEFORE_FULL_REFRESH) {
+        current->handleDraw(true);
+        screenChangesCounter = 0;
+      } else {
+        current->handleDraw();
+      }
+  }
 
-    if (downButton.presseed()) {
-      Serial.println(F("[* DEBUG] - DOWN BUTTON PRESSED"));
-      current->onDownBtnPressed();
-    }
+  switch (okDetector.update(okButton.presseed())) {
+    case Press::Single:
+      Serial.println(F("[* DEBUG] - OK BUTTON PRESSED"));
+      current->onOkBtnPressed();
+      break;
+    case Press::Double:
+      Serial.println(F("[* DEBUG] - OK BUTTON DOUBLE PRESSED"));
+      current->onDoubleOkBtnPressed();
+      break;
+    default:
+      break;
+  }
+
+  switch (upDetector.update(upButton.presseed())) {
+    case Press::Single:
+      Serial.println(F("[* DEBUG] - UP BUTTON PRESSED"));
+      current->onUpBtnPressed();
+      break;
+    case Press::Double:
+      Serial.println(F("[* DEBUG] - UP BUTTON DOUBLE PRESSED"));
+      current->onDoubleUpBtnPressed();
+      break;
+    default:
+      break;
+  }
+
+  if (downButton.presseed()) {
+    Serial.println(F("[* DEBUG] - DOWN BUTTON PRESSED"));
+    current->onDownBtnPressed();
+  }
 }
 
 void changeScreen(ScreenId newScreen) {

@@ -7,7 +7,7 @@
 #include <Arduino.h>
 #include <elements/DisplayButton.h>
 
-#define MAX_CHARACTERS 24
+#define MAX_CHARACTERS 20
 #define START_WRITING_X 4
 #define START_WRITING_Y 64
 
@@ -23,6 +23,7 @@ public:
     void onUpBtnPressed() override;
     void onDownBtnPressed() override;
     void drawPointer(uint16_t x, uint16_t y, boolean partial = false);
+    void onCreateHabitAccept();
 
 
 private:

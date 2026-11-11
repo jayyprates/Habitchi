@@ -4,6 +4,8 @@
 #include "screen_manager.h"
 #include <elements/DisplayButton.h>
 #define PADDING_LEFT 16
+#include "habit.h"
+#include "habit_manager.h"
 
 MenuScreen::MenuScreen() : Screen(ScreenId::Menu, "Menu", false) {
 }
@@ -60,8 +62,9 @@ void MenuScreen::onOkBtnPressed() {
         case DisplayButtonId::MENU_CREATE:
             changeScreen(ScreenId::Create);
             break;
-        case DisplayButtonId::MENU_EDIT:
-            // TODO: Page not implemented
+        case DisplayButtonId::MENU_DELETE:
+            deleteHabit(0);
+            changeScreen(ScreenId::Main);
             break;
         case DisplayButtonId::MENU_SUSPENSE:
             // TODO

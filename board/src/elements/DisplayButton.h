@@ -10,7 +10,7 @@ enum class DisplayButtonId : uint8_t {
 
     // MENU
     MENU_CREATE, 
-    MENU_EDIT, 
+    MENU_DELETE, 
     MENU_SUSPENSE, 
     MENU_TURN_OFF, 
     MENU_BACK
