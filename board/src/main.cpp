@@ -1,4 +1,3 @@
-
 // @ Packages
 #include <Arduino.h>
 #include <Wire.h>
@@ -28,6 +27,7 @@
 constexpr uint8_t OK_BUTTON_PIN = 2;
 constexpr uint8_t UP_BUTTON_PIN = 3;
 constexpr uint8_t DOWN_BUTTON_PIN = 4;
+extern const uint8_t LED_PIN = 5; // base del transistor (LED + buzzer)
 
 constexpr uint32_t SERIAL_BAUD = 115200;
 
@@ -66,10 +66,10 @@ MainScreen mainScreen;
 MenuScreen menuScreen;
 CreateHabitScreen createScreen;
 
-Screen* current = &splashScreen;
+Screen* current = &mainScreen;
 bool splashDone = false;
 uint32_t splashStart = 0;
-ScreenId lastScreen = ScreenId::Splash;
+ScreenId lastScreen = ScreenId::Main;
 
 Button okButton(OK_BUTTON_PIN);
 Button upButton(UP_BUTTON_PIN);
@@ -109,16 +109,6 @@ void rtcInit() {
     Serial.println(F("[* DEBUG] - RTC OK"));
 }
 
-void rtcDebugPrint() {
-    if (!rtcOk || millis() - lastRtcDebug < RTC_DEBUG_INTERVAL_MS) return;
-    lastRtcDebug = millis();
-
-    DateTime now = rtc.now();
-    Serial.print(F("[* DEBUG] - RTC: "));
-    Serial.print(now.timestamp());
-    Serial.print(F(" | unix: "));
-    Serial.println(now.unixtime());
-}
 
 void setup() {
     Serial.begin(SERIAL_BAUD);
@@ -138,15 +128,6 @@ void setup() {
 }
 
 void loop() {
-  if (DEBUG) {
-    rtcDebugPrint();
-  }
-
-  if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
-    current = &mainScreen;
-    splashDone = true;
-  }
-
   // Screen change
   if (lastScreen != current->id) {
       lastScreen = current->id;

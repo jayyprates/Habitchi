@@ -119,6 +119,7 @@ void CreateHabitScreen::onOkBtnPressed() {
             currentChar = 'A';
             changeScreen(ScreenId::Menu);
         } else if (selectedButton == 0) {
+            defaultSuccessBeep();
             onCreateHabitAccept();
             selectedButton = 0;
             memset(characters, 0, sizeof(characters)); 

@@ -7,6 +7,63 @@
     There is a lot of room for improvement here
 */
 
+extern const uint8_t LED_PIN; // definido en main.cpp
+
+// Dibuja los pixeles del bitmap (1 bit por pixel, en PROGMEM) ampliados por 'scale'
+static void drawBitmapPixels(
+    int16_t x,
+    int16_t y,
+    const unsigned char* bitmap,
+    uint16_t w,
+    uint16_t h,
+    uint8_t scale,
+    uint16_t color
+) {
+    const uint16_t bytesPerRow = (w + 7) / 8;
+
+    for (uint16_t row = 0; row < h; row++) {
+        for (uint16_t col = 0; col < w; col++) {
+
+            uint8_t byte = pgm_read_byte(
+                bitmap + row * bytesPerRow + col / 8
+            );
+
+            if (byte & (0x80 >> (col % 8))) {
+                display.fillRect(
+                    x + col * scale,
+                    y + row * scale,
+                    scale,
+                    scale,
+                    color
+                );
+            }
+        }
+    }
+}
+
+void Screen::drawBitmapScaled(
+    int16_t x,
+    int16_t y,
+    const unsigned char* bitmap,
+    uint16_t w,
+    uint16_t h,
+    uint8_t scale,
+    uint16_t color,
+    bool partial
+) {
+    if (partial) {
+        display.setPartialWindow(x, y, w * scale, h * scale);
+        display.firstPage();
+
+        do {
+            display.fillScreen(GxEPD_WHITE);
+            drawBitmapPixels(x, y, bitmap, w, h, scale, color);
+        } while (display.nextPage());
+    } else {
+        drawBitmapPixels(x, y, bitmap, w, h, scale, color);
+    }
+}
+
 void Screen::handleDrawText(
     const String& text,
     int16_t x,
@@ -97,4 +154,28 @@ void Screen::handleDraw(boolean full) {
         display.setTextColor(GxEPD_BLACK);  // restaura el color para las hijas
         show();
     } while (display.nextPage());
+}
+
+// Onda cuadrada en el pin: suena el buzzer y el LED queda prendido
+void Screen::beep(uint16_t halfPeriodUs, uint16_t durationMs) {
+    const uint32_t start = millis();
+    while (millis() - start < durationMs) {
+        digitalWrite(LED_PIN, HIGH);
+        delayMicroseconds(halfPeriodUs);
+        digitalWrite(LED_PIN, LOW);
+        delayMicroseconds(halfPeriodUs);
+    }
+}
+
+void Screen::defaultFailBeep() {
+    pinMode(LED_PIN, OUTPUT);
+    beep(80, 500); // 80 -> ~6 kHz
+}
+
+void Screen::defaultSuccessBeep() {
+    // Beep Beep! 
+    pinMode(LED_PIN, OUTPUT);
+    beep(100, 100); // 100 -> ~5 kHz
+    delay(50);
+    beep(100, 100);
 }

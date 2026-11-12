@@ -11,6 +11,8 @@
 
 #define HORIZONTAL_INFORMATION_START 150
 extern RTC_DS3231 rtc;
+extern const uint8_t LED_PIN; // definido en main.cpp
+
 
 MainScreen::MainScreen() : Screen(ScreenId::Main, "Main", false) {}
 
@@ -28,7 +30,7 @@ bool MainScreen::isHabitValid(const Habit& habit) {
         }
     }
     return false;
-}
+} 
 
 void MainScreen::show() {
     // 1. Cargar explícitamente sobre el atributo miembro de la clase
@@ -37,7 +39,7 @@ void MainScreen::show() {
     // 3. Renderizado en pantalla
     if (!isHabitValid(this->current_habit)) {
         handleDrawText(
-            "No habit created yet.", 
+            "Nenhum habito criado", 
             display.width() / 2, 
             display.height() / 2 - 10, 
             1, 
@@ -46,7 +48,7 @@ void MainScreen::show() {
             TextAlignH::CENTER
         );
         handleDrawText(
-            "Press 'OK' to start", 
+            "Pressione OK duas vezes", 
             display.width() / 2, 
             display.height() / 2 + 10, 
             1, 
@@ -115,7 +117,6 @@ void MainScreen::show() {
             HORIZONTAL_INFORMATION_START, 
             110, 
             1, 
-            false, 
             false
         );
         handleDrawText(
@@ -123,25 +124,12 @@ void MainScreen::show() {
             HORIZONTAL_INFORMATION_START, 
             130, 
             2, 
-            false, 
             false
         );
     }
 }
 
 void MainScreen::onOkBtnPressed() {
-    changeScreen(ScreenId::Menu);
-}
-
-void MainScreen::onDownBtnPressed() {
-    // ...
-}
-
-void MainScreen::onUpBtnPressed() {
-    // ...
-}
-
-void MainScreen::onDoubleOkBtnPressed() {
     this->current_habit = loadHabit(0);
 
     if (!isHabitValid(this->current_habit)) {
@@ -153,10 +141,35 @@ void MainScreen::onDoubleOkBtnPressed() {
 
     if (trackHabit(this->current_habit, current_timestamp, 0)) {
         Serial.println(F("[* MainScreen] - Trackeo exitoso, redibujando..."));
+        beepSuccess();
         handleDraw();
     } else {
         Serial.println(F("[* MainScreen] - Bloqueado: aun no pasan 24h"));
+        defaultFailBeep();
+    }
+}
+
+void MainScreen::onDownBtnPressed() {
+    onOkBtnPressed();
+}
+
+void MainScreen::onUpBtnPressed() {
+    onOkBtnPressed();
+}
+
+void MainScreen::onDoubleOkBtnPressed() {
+    changeScreen(ScreenId::Menu);
+}
+
+// 3 pitidos cada vez mas agudos, pausa y un pitido final
+void MainScreen::beepSuccess() {
+    pinMode(LED_PIN, OUTPUT);
+
+    for (uint8_t i = 0; i < 3; i++) {
+        beep(250 - i * 25, 50);
+        delay(50);
     }
 
-    handleDraw();
+    delay(400);
+    beep(125, 50);
 }
