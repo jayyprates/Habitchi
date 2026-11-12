@@ -19,15 +19,4 @@ using Display = GxEPD2_BW<Panel, PAGE_SIZE>;
 
 extern Display display;  // la definición vive en display.cpp
 
-// Graphics
-void drawBitmapScaled(
-    int16_t x,
-    int16_t y,
-    const unsigned char* bitmap,
-    uint16_t w,
-    uint16_t h,
-    uint8_t scale,
-    uint16_t color
-);
-
 #endif

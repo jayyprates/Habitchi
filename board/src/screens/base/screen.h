@@ -27,6 +27,21 @@ public:
         TextAlignV vAlignment = TextAlignV::CENTER
     );
 
+    void drawBitmapScaled(
+        int16_t x,
+        int16_t y,
+        const unsigned char* bitmap,
+        uint16_t w,
+        uint16_t h,
+        uint8_t scale,
+        uint16_t color,
+        boolean partial = false
+    );
+
+    void beep(uint16_t halfPeriodUs, uint16_t durationMs);
+    void defaultFailBeep();
+    void defaultSuccessBeep();
+    
     virtual void show() = 0;
 
     virtual void onOkBtnPressed() {};
@@ -34,7 +49,7 @@ public:
     virtual void onUpBtnPressed() {};
     virtual void onDoubleUpBtnPressed() {};
     virtual void onDownBtnPressed() {};
-
+    
     const ScreenId id;
 
 protected:

@@ -64,12 +64,10 @@ void MenuScreen::onOkBtnPressed() {
             break;
         case DisplayButtonId::MENU_DELETE:
             deleteHabit(0);
+            defaultSuccessBeep();
             changeScreen(ScreenId::Main);
             break;
         case DisplayButtonId::MENU_SUSPENSE:
-            // TODO
-            break;
-        case DisplayButtonId::MENU_TURN_OFF:
             // TODO: Currently, only clearScreen() is called, but it should also call something like handleTurnOff() in main.cpp to turn the device off completely.
             display.clearScreen();
             break;

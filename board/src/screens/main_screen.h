@@ -8,7 +8,8 @@ class MainScreen : public Screen {
 private:
     Habit current_habit;
     bool isHabitValid(const Habit& habit);
-
+    void draw(bool partial = false);
+    bool abc = false;
 public:
     MainScreen();
     void show() override;
@@ -16,6 +17,8 @@ public:
     void onDownBtnPressed() override;
     void onUpBtnPressed() override;
     void onDoubleOkBtnPressed() override;
+
+    void beepSuccess();
 };
 
 #endif // MAIN_SCREEN_H
