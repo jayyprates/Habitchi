@@ -33,15 +33,6 @@ bool MainScreen::isHabitValid(const Habit& habit) {
 } 
 
 void MainScreen::show() {
-    if (abc) {
-       handleDrawText(
-            "QWER", 
-            10,
-            30,
-            2, 
-            false
-        ); 
-    }
     // 1. Cargar explícitamente sobre el atributo miembro de la clase
     this->current_habit = loadHabit(0);
 

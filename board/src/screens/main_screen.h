@@ -9,7 +9,6 @@ private:
     Habit current_habit;
     bool isHabitValid(const Habit& habit);
     void draw(bool partial = false);
-    bool abc = false;
 public:
     MainScreen();
     void show() override;
