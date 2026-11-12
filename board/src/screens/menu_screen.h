@@ -9,7 +9,7 @@
 #include <screens/base/screen.h>
 #include <elements/DisplayButton.h>
 
-constexpr uint8_t NUM_BUTTONS = 5;
+constexpr uint8_t NUM_BUTTONS = 4;
 
 class MenuScreen : public Screen {
 public:

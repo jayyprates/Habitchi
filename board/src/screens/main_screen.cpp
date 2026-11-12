@@ -140,21 +140,21 @@ void MainScreen::onOkBtnPressed() {
     uint32_t current_timestamp = now.unixtime();
 
     if (trackHabit(this->current_habit, current_timestamp, 0)) {
-        Serial.println(F("[* MainScreen] - Trackeo exitoso, redibujando..."));
+        //Serial.println(F("[* MainScreen] - Trackeo exitoso, redibujando..."));
         beepSuccess();
         handleDraw();
     } else {
-        Serial.println(F("[* MainScreen] - Bloqueado: aun no pasan 24h"));
+        //Serial.println(F("[* MainScreen] - Bloqueado: aun no pasan 24h"));
         defaultFailBeep();
     }
 }
 
 void MainScreen::onDownBtnPressed() {
-    onOkBtnPressed();
+    changeScreen(ScreenId::Menu);
 }
 
 void MainScreen::onUpBtnPressed() {
-    onOkBtnPressed();
+    changeScreen(ScreenId::Menu);
 }
 
 void MainScreen::onDoubleOkBtnPressed() {

@@ -66,10 +66,10 @@ MainScreen mainScreen;
 MenuScreen menuScreen;
 CreateHabitScreen createScreen;
 
-Screen* current = &mainScreen;
+Screen* current = &splashScreen;
 bool splashDone = false;
 uint32_t splashStart = 0;
-ScreenId lastScreen = ScreenId::Main;
+ScreenId lastScreen = ScreenId::Splash;
 
 Button okButton(OK_BUTTON_PIN);
 Button upButton(UP_BUTTON_PIN);
@@ -97,16 +97,16 @@ void rtcInit() {
     rtcOk = rtc.begin();
 
     if (!rtcOk) {
-        Serial.println(F("[* DEBUG] - RTC NO ENCONTRADO (revisar SDA->A4, SCL->A5, VCC, GND)"));
+        //Serial.println(F("[* DEBUG] - RTC NO ENCONTRADO (revisar SDA->A4, SCL->A5, VCC, GND)"));
         return;
     }
 
     if (rtc.lostPower()) {
-        Serial.println(F("[* DEBUG] - RTC perdio la energia, ajustando con la hora de compilacion"));
+        //Serial.println(F("[* DEBUG] - RTC perdio la energia, ajustando con la hora de compilacion"));
         rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
     }
 
-    Serial.println(F("[* DEBUG] - RTC OK"));
+    //Serial.println(F("[* DEBUG] - RTC OK"));
 }
 
 
@@ -128,6 +128,11 @@ void setup() {
 }
 
 void loop() {
+  if (!splashDone && millis() - splashStart >= SPLASH_DURATION_MS) {
+      current = &mainScreen;
+      splashDone = true;
+  }
+  
   // Screen change
   if (lastScreen != current->id) {
       lastScreen = current->id;
@@ -141,11 +146,11 @@ void loop() {
 
   switch (okDetector.update(okButton.presseed())) {
     case Press::Single:
-      Serial.println(F("[* DEBUG] - OK BUTTON PRESSED"));
+      //Serial.println(F("[* DEBUG] - OK BUTTON PRESSED"));
       current->onOkBtnPressed();
       break;
     case Press::Double:
-      Serial.println(F("[* DEBUG] - OK BUTTON DOUBLE PRESSED"));
+      //Serial.println(F("[* DEBUG] - OK BUTTON DOUBLE PRESSED"));
       current->onDoubleOkBtnPressed();
       break;
     default:
@@ -154,11 +159,11 @@ void loop() {
 
   switch (upDetector.update(upButton.presseed())) {
     case Press::Single:
-      Serial.println(F("[* DEBUG] - UP BUTTON PRESSED"));
+      //Serial.println(F("[* DEBUG] - UP BUTTON PRESSED"));
       current->onUpBtnPressed();
       break;
     case Press::Double:
-      Serial.println(F("[* DEBUG] - UP BUTTON DOUBLE PRESSED"));
+      //Serial.println(F("[* DEBUG] - UP BUTTON DOUBLE PRESSED"));
       current->onDoubleUpBtnPressed();
       break;
     default:
@@ -166,13 +171,13 @@ void loop() {
   }
 
   if (downButton.presseed()) {
-    Serial.println(F("[* DEBUG] - DOWN BUTTON PRESSED"));
+    //Serial.println(F("[* DEBUG] - DOWN BUTTON PRESSED"));
     current->onDownBtnPressed();
   }
 }
 
 void changeScreen(ScreenId newScreen) {
-  Serial.println(F("[* DEBUG] - CHANGING SCREEN"));
+  //Serial.println(F("[* DEBUG] - CHANGING SCREEN"));
 
   screenChangesCounter += 1;
 
